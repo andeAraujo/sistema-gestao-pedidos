@@ -1,35 +1,32 @@
-## O que esse PR faz?
+## Descrição
+<!-- O que este PR faz? Explique de forma clara e objetiva. -->
 
-<!-- Descreva resumidamente o que foi implementado ou corrigido -->
 
 ## Tipo de mudança
+<!-- Marque com [x] o que se aplica -->
 
-- [ ] Nova funcionalidade (`feat`)
-- [ ] Correção de bug (`fix`)
-- [ ] Refatoração (`refactor`)
-- [ ] Documentação (`docs`)
-- [ ] Configuração/build (`chore`)
+- [ ] `feat` — nova funcionalidade
+- [ ] `fix` — correção de bug
+- [ ] `docs` — documentação
+- [ ] `chore` — infraestrutura / configuração
+- [ ] `test` — adição ou ajuste de testes
+- [ ] `refactor` — refatoração sem mudança de comportamento
 
-## Checklist antes de solicitar review
+## Issue / Card relacionado
+<!-- Ex: Card "CRUD de produtos" — Fase I -->
 
-- [ ] O código roda localmente sem erros
-- [ ] Testei o fluxo completo da funcionalidade
-- [ ] Não deixei credenciais ou dados sensíveis no código (sem `.env` commitado)
-- [ ] Os commits seguem o padrão `tipo(escopo): descrição`
-- [ ] O título deste PR segue o padrão `tipo(escopo): descrição`
 
-## Como testar
+## Checklist
 
-<!-- Descreva o passo a passo para o revisor testar essa mudança -->
+- [ ] O código foi testado localmente e está funcionando
+- [ ] Não há credenciais, senhas ou chaves de API no código
+- [ ] As variáveis de ambiente necessárias estão documentadas no `.env.example`
+- [ ] O pipeline de CI passou (verde) antes de solicitar revisão
+- [ ] Pelo menos 1 outro membro da equipe foi adicionado como revisor
 
-1. 
-2. 
-3. 
+## Testes realizados
+<!-- Descreva brevemente o que foi testado. Ex: "Testei login com credenciais válidas e inválidas" -->
 
-## Resultado esperado
-
-<!-- O que deve acontecer após os passos acima -->
 
 ## Screenshots (se aplicável)
-
-<!-- Cole prints da tela antes/depois, se for mudança visual -->
+<!-- Cole prints da interface ou do terminal se ajudar na revisão -->
