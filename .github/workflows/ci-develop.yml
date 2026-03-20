@@ -1,0 +1,64 @@
+name: CI — develop
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  ci:
+    name: Verificar, testar e validar
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Instalar dependências
+        working-directory: backend
+        run: npm install
+
+      - name: Verificar sintaxe do servidor
+        working-directory: backend
+        run: |
+          if [ -f server.js ]; then
+            node --check server.js
+          else
+            echo "server.js ainda não existe — pulando verificação de sintaxe."
+          fi
+
+      - name: Verificar inicialização do servidor
+        working-directory: backend
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          PORT: 3000
+        run: |
+          if [ -f server.js ]; then
+            node server.js &
+            SERVER_PID=$!
+            sleep 3
+            curl --fail http://localhost:3000/ || (kill $SERVER_PID && exit 1)
+            kill $SERVER_PID
+          else
+            echo "server.js ainda não existe — pulando verificação de inicialização."
+          fi
+
+      - name: Rodar testes
+        working-directory: backend
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: |
+          if grep -q '"test"' package.json; then
+            npm test
+          else
+            echo "Nenhum script de testes configurado ainda — pulando."
+          fi
