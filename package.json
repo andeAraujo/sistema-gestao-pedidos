@@ -1,0 +1,28 @@
+{
+  "name": "sistema-gestao-pedidos",
+  "version": "1.0.0",
+  "description": "Protótipo funcional de aplicação web para gestão de pedidos e catálogo de produtos de uma microempreendedora de confeitaria artesanal.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andeAraujo/sistema-gestao-pedidos.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andeAraujo/sistema-gestao-pedidos/issues"
+  },
+  "homepage": "https://github.com/andeAraujo/sistema-gestao-pedidos#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.99.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  }
+}
