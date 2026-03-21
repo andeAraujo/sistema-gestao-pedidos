@@ -46,7 +46,7 @@ jobs:
           if [ -f server.js ]; then
             node server.js &
             SERVER_PID=$!
-            sleep 3
+            sleep 10
             curl --fail http://localhost:3000/ || (kill $SERVER_PID && exit 1)
             kill $SERVER_PID
           fi
