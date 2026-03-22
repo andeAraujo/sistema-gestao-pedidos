@@ -43,10 +43,12 @@ app.get('/', (req, res) => {
 // Rotas
 // ------------------------------------------------------------
 const produtosRoutes = require('./routes/produtos');
-app.use('/produtos', produtosRoutes);
+const pedidosRoutes  = require('./routes/pedidos');
+const cadastroRoutes = require('./routes/cadastro');
 
-// const pedidosRoutes = require('./routes/pedidos');
-// app.use('/pedidos', pedidosRoutes);
+app.use('/produtos', produtosRoutes);
+app.use('/pedidos',  pedidosRoutes);
+app.use('/cadastro', cadastroRoutes);
 
 // ------------------------------------------------------------
 // Inicialização
