@@ -1,7 +1,6 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const { createClient } = require('@supabase/supabase-js');
 
 // ------------------------------------------------------------
 // Validação das variáveis de ambiente obrigatórias
@@ -15,9 +14,10 @@ if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) {
 }
 
 // ------------------------------------------------------------
-// Configuração do cliente Supabase - SUPABASE_SECRET_KEY ignora as regras de RLS
+// Cliente Supabase — importado de lib/supabase.js
+// Separado do server.js para evitar dependência circular
 // ------------------------------------------------------------
-const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
+const { supabase } = require('./lib/supabase');
 
 // ------------------------------------------------------------
 // Configuração do servidor Express
@@ -34,7 +34,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({
     status: 'ok',
-    projeto: 'Sistema de Gestão de Pedidos',
+    projeto: 'DoceGestor',
     versao: '1.0.0',
   });
 });

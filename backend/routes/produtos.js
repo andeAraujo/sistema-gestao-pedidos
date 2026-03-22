@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const { authenticateUser } = require('../middleware/auth');
+const { requireAdmin } = require('../middleware/auth');
 const {
-    listarProdutos,
-    buscarProduto,
-    criarProduto,
-    atualizarProduto,
-    removerProduto
+  listarProdutos,
+  buscarProduto,
+  criarProduto,
+  atualizarProduto,
+  removerProduto,
 } = require('../controllers/produto');
 
-// Rotas públicas - não requerem autenticação
+// Rotas públicas — sem autenticação
 router.get('/', listarProdutos);
 router.get('/:id', buscarProduto);
 
-// Rotas protegidas - exigem token válido no header Authorization
-router.post('/', authenticateUser, criarProduto);
-router.put('/:id', authenticateUser, atualizarProduto);
-router.delete('/:id', authenticateUser, removerProduto);
+// Rotas protegidas — apenas admin
+router.post('/', requireAdmin, criarProduto);
+router.put('/:id', requireAdmin, atualizarProduto);
+router.delete('/:id', requireAdmin, removerProduto);
 
 module.exports = router;
