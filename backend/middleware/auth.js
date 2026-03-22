@@ -1,36 +1,68 @@
-const { supabase } = require('../server');
+const { supabase } = require('../lib/supabase');
 
-/**
- * Middleware de autenticação — valida o token JWT do Supabase.
- *
- * Uso: adicionar como segundo argumento em qualquer rota protegida.
- * Exemplo: router.post('/produtos', authenticateUser, criarProduto);
- *
- * O token deve ser enviado no header:
- * Authorization: Bearer <token>
- *
- * O token é gerado automaticamente pelo SDK do Supabase no frontend
- * após supabase.auth.signInWithPassword() — não é gerado manualmente.
- */
-async function authenticateUser(req, res, next) {
+// ------------------------------------------------------------
+// Função base - valida o token JWT e retorna o usuário
+// Usada internamente pelos middlewares abaixo
+// ------------------------------------------------------------
+async function getAuthenticatedUser(req, res) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ erro: 'Token de autenticação não fornecido.' });
+    res.status(401).json({ erro: 'Token de autenticação não fornecido.' });
+    return null;
   }
 
   const token = authHeader.split(' ')[1];
-
   const { data, error } = await supabase.auth.getUser(token);
 
   if (error || !data.user) {
-    return res.status(401).json({ erro: 'Token inválido ou expirado.' });
+    res.status(401).json({ erro: 'Token inválido ou expirado.' });
+    return null;
   }
 
-  // Disponibiliza os dados do usuário autenticado para a rota
-  req.user = data.user;
+  return data.user;
+}
 
+// ------------------------------------------------------------
+// requireCustomer - qualquer usuário autenticado (admin ou customer)
+// Usar em: POST /pedidos, GET /pedidos (filtragem por role dentro da rota)
+// ------------------------------------------------------------
+async function requireCustomer(req, res, next) {
+  const user = await getAuthenticatedUser(req, res);
+  if (!user) return;
+
+  req.user = user;
   next();
 }
 
-module.exports = { authenticateUser };
+// ------------------------------------------------------------
+// requireAdmin - apenas usuários com role 'admin'
+// Usar em: POST/PUT/DELETE /produtos, GET /pedidos (admin), PUT /pedidos/:id/status
+// ------------------------------------------------------------
+async function requireAdmin(req, res, next) {
+  const user = await getAuthenticatedUser(req, res);
+  if (!user) return;
+
+  const role = user.user_metadata?.role;
+
+  if (role !== 'admin') {
+    return res.status(403).json({ erro: 'Acesso restrito a administradores.' });
+  }
+
+  req.user = user;
+  next();
+}
+
+// ------------------------------------------------------------
+// authenticateUser - mantido por compatibilidade
+// Novo código deve usar requireAdmin ou requireCustomer
+// ------------------------------------------------------------
+async function authenticateUser(req, res, next) {
+  const user = await getAuthenticatedUser(req, res);
+  if (!user) return;
+
+  req.user = user;
+  next();
+}
+
+module.exports = { authenticateUser, requireCustomer, requireAdmin };
