@@ -15,7 +15,7 @@ if (!SUPABASE_URL || !SUPABASE_SECRET_KEY) {
 }
 
 // ------------------------------------------------------------
-// Cliente Supabase — SUPABASE_SECRET_KEY ignora o RLS
+// Configuração do cliente Supabase - SUPABASE_SECRET_KEY ignora as regras de RLS
 // ------------------------------------------------------------
 const supabase = createClient(SUPABASE_URL, SUPABASE_SECRET_KEY);
 
@@ -35,17 +35,17 @@ app.get('/', (req, res) => {
   res.json({
     status: 'ok',
     projeto: 'Sistema de Gestão de Pedidos',
-
     versao: '1.0.0',
   });
 });
 
 // ------------------------------------------------------------
-// Rotas (serão adicionadas nos próximos cards)
+// Rotas
 // ------------------------------------------------------------
-// const produtosRoutes = require('./routes/produtos');
+const produtosRoutes = require('./routes/produtos');
+app.use('/produtos', produtosRoutes);
+
 // const pedidosRoutes = require('./routes/pedidos');
-// app.use('/produtos', produtosRoutes);
 // app.use('/pedidos', pedidosRoutes);
 
 // ------------------------------------------------------------
