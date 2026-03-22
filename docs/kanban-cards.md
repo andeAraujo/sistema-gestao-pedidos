@@ -165,7 +165,7 @@ colunas abaixo e adicione os cards na ordem indicada.
 **[FRONTEND] Admin — painel de produtos**
 - Responsável: Dev 1
 - Prazo: 23/03
-- Branch: feature/admin-produtos
+- Branch: `feature/admin-produtos`
 - Tarefas:
   - Criar frontend/admin/produtos.html — painel protegido: apenas admin acessa
   - Verificar role após exigirAutenticacao() — redirecionar para index.html se não for admin

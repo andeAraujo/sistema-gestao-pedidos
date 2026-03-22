@@ -3,19 +3,25 @@
 //  Depende de supabase-client.js carregado antes deste arquivo.
 // ============================================================
 
-// Login com e-mail e senha via Supabase Auth
+// Login com e-mail e senha — redireciona por role após sucesso
 async function login(email, senha) {
   const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
     password: senha,
   });
+
+  if (!error && data.session) {
+    const role = data.session.user.user_metadata?.role;
+    window.location.href = role === 'admin' ? 'admin/dashboard.html' : 'index.html';
+  }
+
   return { data, error };
 }
 
-// Logout — encerra a sessão e redireciona para login
+// Logout — encerra a sessão e redireciona para a vitrine
 async function logout() {
   await supabaseClient.auth.signOut();
-  window.location.href = 'login.html';
+  window.location.href = 'index.html';
 }
 
 // Verifica sessão ativa — redireciona para login se não houver
@@ -24,6 +30,22 @@ async function exigirAutenticacao() {
   const { data } = await supabaseClient.auth.getSession();
   if (!data.session) {
     window.location.href = 'login.html';
+  }
+  return data.session;
+}
+
+// Verifica sessão e role admin — redireciona se não for admin
+// Chamar no topo de todas as páginas do painel admin
+async function exigirAdmin() {
+  const { data } = await supabaseClient.auth.getSession();
+  if (!data.session) {
+    window.location.href = 'login.html';
+    return null;
+  }
+  const role = data.session.user.user_metadata?.role;
+  if (role !== 'admin') {
+    window.location.href = 'index.html';
+    return null;
   }
   return data.session;
 }

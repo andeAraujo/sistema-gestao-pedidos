@@ -8,8 +8,8 @@
 //  Toda operação sensível passa pelo backend via SUPABASE_SECRET_KEY.
 // ============================================================
 
-const SUPABASE_URL         = 'COLE_AQUI_SUA_URL_DO_SUPABASE';
-const SUPABASE_PUBLISHABLE = 'COLE_AQUI_SUA_CHAVE_PUBLICA_DO_SUPABASE';
+const SUPABASE_URL         = 'COLOQUE_SUA_URL_DO_SUPABASE_AQUI';
+const SUPABASE_PUBLISHABLE = 'COLOQUE_SUA_CHAVE_PÚBLICA_AQUI';
 
 // Criar cliente Supabase para uso no frontend
 var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE);
