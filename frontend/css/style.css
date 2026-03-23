@@ -321,3 +321,23 @@ body {
     padding: 1.25rem 1rem;
   }
 }
+
+/* ------------------------------------------------------------
+   Rodapé de formulário (link "já tem conta?" etc.)
+   ------------------------------------------------------------ */
+.form-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.form-footer a {
+  color: var(--rose-dark);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
