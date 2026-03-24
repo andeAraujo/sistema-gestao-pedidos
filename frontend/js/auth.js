@@ -29,7 +29,7 @@ async function logout() {
 async function exigirAutenticacao() {
   const { data } = await supabaseClient.auth.getSession();
   if (!data.session) {
-    window.location.href = 'login.html';
+    window.location.href = window.location.pathname.includes('admin/') ? '../login.html' : 'login.html';
   }
   return data.session;
 }
@@ -39,12 +39,12 @@ async function exigirAutenticacao() {
 async function exigirAdmin() {
   const { data } = await supabaseClient.auth.getSession();
   if (!data.session) {
-    window.location.href = 'login.html';
+    window.location.href = window.location.pathname.includes('admin/') ? '../login.html' : 'login.html';
     return null;
   }
   const role = data.session.user.user_metadata?.role;
   if (role !== 'admin') {
-    window.location.href = 'index.html';
+    window.location.href = window.location.pathname.includes('admin/') ? '../index.html' : 'index.html';
     return null;
   }
   return data.session;
