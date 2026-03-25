@@ -21,7 +21,7 @@ async function login(email, senha) {
 // Logout — encerra a sessão e redireciona para a vitrine
 async function logout() {
   await supabaseClient.auth.signOut();
-  window.location.href = 'index.html';
+  window.location.href = window.location.pathname.includes('admin/') ? '../index.html' : 'index.html';
 }
 
 // Verifica sessão ativa — redireciona para login se não houver
